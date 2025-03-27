@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bannière Urgence</title>
+  <style>
+    @keyframes waveEffect {
+      0% { transform: translateY(0px) scaleX(1); }
+      50% { transform: translateY(-8px) scaleX(1.02); }
+      100% { transform: translateY(0px) scaleX(1); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .banner {
+      width: 90%;
+      max-width: 900px;
+      padding: 20px;
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(90deg, #d32f2f, #b71c1c);
+      animation: waveEffect 3s infinite ease-in-out;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      letter-spacing: 8px;
+      min-height: 80px;
+    }
+
+    .typing-char {
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in forwards;
+      display: inline-block;
+      animation-delay: var(--delay);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <span id="typing-text"></span>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const text = "PLOMBIER EN URGENCE 24/7";
+      const container = document.getElementById("typing-text");
+
+      function typeEffect() {
+        container.innerHTML = "";
+        let index = 0;
+
+        function typing() {
+          if (index < text.length) {
+            let span = document.createElement("span");
+            span.textContent = text.charAt(index);
+            span.classList.add("typing-char");
+            span.style.setProperty('--delay', `${index * 0.05}s`);
+            container.appendChild(span);
+            index++;
+            setTimeout(typing, 150);
+          } else {
+            setTimeout(() => typeEffect(), 4000);
+          }
+        }
+
+        typing();
+      }
+
+      typeEffect();
+    });
+  </script>
+
+</body>
+</html>
