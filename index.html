@@ -5,22 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bannière Urgence</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
     @keyframes waveEffect {
       0% { transform: translateY(0px) scaleX(1); }
       50% { transform: translateY(-8px) scaleX(1.02); }
       100% { transform: translateY(0px) scaleX(1); }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes fadeUpSmooth {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     body {
       margin: 0;
       padding: 0;
       background-color: #f4f4f4;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -28,12 +36,11 @@
     }
 
     .banner {
-      width: 90%;
-      max-width: 900px;
+      width: 100vw;
       padding: 20px;
       text-align: center;
-      font-size: 30px;
-      font-weight: bold;
+      font-size: 32px;
+      font-weight: 500;
       color: white;
       background: linear-gradient(90deg, #d32f2f, #b71c1c);
       animation: waveEffect 3s infinite ease-in-out;
@@ -41,23 +48,31 @@
       justify-content: center;
       align-items: center;
       border-radius: 10px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-      letter-spacing: 8px;
-      min-height: 80px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+      min-height: 100px;
+    }
+
+    #typing-text {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .typing-char {
       opacity: 0;
-      animation: fadeIn 0.5s ease-in forwards;
-      display: inline-block;
+      animation: fadeUpSmooth 0.9s ease-out forwards;
       animation-delay: var(--delay);
+      display: inline-block;
+      padding: 0 6px;
     }
   </style>
 </head>
 <body>
 
   <div class="banner">
-    <span id="typing-text"></span>
+    <div id="typing-text"></div>
   </div>
 
   <script>
@@ -67,23 +82,18 @@
 
       function typeEffect() {
         container.innerHTML = "";
-        let index = 0;
 
-        function typing() {
-          if (index < text.length) {
-            let span = document.createElement("span");
-            span.textContent = text.charAt(index);
-            span.classList.add("typing-char");
-            span.style.setProperty('--delay', `${index * 0.05}s`);
-            container.appendChild(span);
-            index++;
-            setTimeout(typing, 150);
-          } else {
-            setTimeout(() => typeEffect(), 4000);
-          }
+        // Crée tous les caractères d'un coup avec animation fluide
+        for (let i = 0; i < text.length; i++) {
+          const char = text.charAt(i);
+          const span = document.createElement("span");
+          span.textContent = char;
+          span.classList.add("typing-char");
+          span.style.setProperty('--delay', `${i * 0.15}s`);
+          container.appendChild(span);
         }
 
-        typing();
+        setTimeout(() => typeEffect(), 8000);
       }
 
       typeEffect();
