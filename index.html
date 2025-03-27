@@ -37,9 +37,9 @@
 
     .banner {
       width: 100vw;
-      padding: 20px;
+      padding: 20px 40px;
       text-align: center;
-      font-size: 32px;
+      font-size: 40px;
       font-weight: 500;
       color: white;
       background: linear-gradient(90deg, #d32f2f, #b71c1c);
@@ -49,15 +49,20 @@
       align-items: center;
       border-radius: 10px;
       box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-      min-height: 100px;
+      min-height: 120px;
+      overflow: hidden;
     }
 
     #typing-text {
       width: 100%;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
+      gap: 40px;
+      flex-wrap: nowrap;
+    }
+
+    .word {
+      display: flex;
     }
 
     .typing-char {
@@ -65,7 +70,7 @@
       animation: fadeUpSmooth 0.9s ease-out forwards;
       animation-delay: var(--delay);
       display: inline-block;
-      padding: 0 6px;
+      letter-spacing: -0.5px;
     }
   </style>
 </head>
@@ -82,16 +87,24 @@
 
       function typeEffect() {
         container.innerHTML = "";
+        const words = text.split(" ");
+        let charIndex = 0;
 
-        // Crée tous les caractères d'un coup avec animation fluide
-        for (let i = 0; i < text.length; i++) {
-          const char = text.charAt(i);
-          const span = document.createElement("span");
-          span.textContent = char;
-          span.classList.add("typing-char");
-          span.style.setProperty('--delay', `${i * 0.15}s`);
-          container.appendChild(span);
-        }
+        words.forEach((word, index) => {
+          const wordContainer = document.createElement("div");
+          wordContainer.classList.add("word");
+
+          for (let i = 0; i < word.length; i++) {
+            const span = document.createElement("span");
+            span.textContent = word.charAt(i);
+            span.classList.add("typing-char");
+            span.style.setProperty('--delay', `${charIndex * 0.15}s`);
+            wordContainer.appendChild(span);
+            charIndex++;
+          }
+
+          container.appendChild(wordContainer);
+        });
 
         setTimeout(() => typeEffect(), 8000);
       }
